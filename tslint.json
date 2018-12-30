@@ -1,0 +1,6 @@
+{
+  "extends": "@oclif/tslint",
+  "rules": {
+    "trailing-comma": [true, { "multiline": "always", "singleline": "never" }]
+  }
+}
