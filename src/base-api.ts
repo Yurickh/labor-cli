@@ -9,14 +9,16 @@ function stripLeadingSlash(uri: string) {
 
 export default function baseAPI(uri: string) {
   return {
-    post(data: object) {
+    post: (data: object) => {
       return fetch(`${root}/${stripLeadingSlash(uri)}`, {
         method: 'POST',
         headers: {
-          body: JSON.stringify(data),
           'Content-Type': 'application/json;charset=UTF-8',
           Accept: 'application/json, text/plain, */*',
+          'accept-encoding': 'deflate, br',
+          'x-key-inflection': 'camel',
         },
+        body: JSON.stringify(data),
       }).then(response => response.json())
     },
   }
