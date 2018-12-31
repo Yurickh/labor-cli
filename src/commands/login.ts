@@ -5,6 +5,7 @@ import * as Listr from 'listr'
 import authenticate from '../login/authenticate'
 import keychain from '../login/keychain'
 import * as Prompt from '../login/prompt'
+import {LoginCredentials} from '../login/types'
 
 async function chooseAccount(): Promise<{
   chosen: LoginCredentials;
@@ -12,7 +13,7 @@ async function chooseAccount(): Promise<{
 }> {
   const credentials = await keytar.findCredentials('br.com.getlabor')
 
-  if (credentials === null || credentials.length === 0) {
+  if (credentials.length === 0) {
     return {chosen: await Prompt.credentials()}
   }
 
@@ -85,7 +86,7 @@ export default class Login extends Command {
 
       if (account && password) {
         await orchestratePumbler(this.log, {account, password})
-        this.exit(0)
+        return true
       }
 
       const {chosen, isNew} = await chooseAccount()
@@ -94,6 +95,7 @@ export default class Login extends Command {
         "✨ You've been successfully logged in. You can now use all labor's features",
       )
     } catch (exception) {
+      // this.error(exception)
       this.exit(1)
     }
   }

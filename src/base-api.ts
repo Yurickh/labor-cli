@@ -1,6 +1,6 @@
 import fetch from 'node-fetch'
 
-const root = 'https://api.getlabor.com.br'
+export const root = 'https://api.getlabor.com.br'
 
 function stripLeadingSlash(uri: string) {
   if (uri.startsWith('/')) return uri.slice(1)
