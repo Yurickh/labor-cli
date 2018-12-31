@@ -56,11 +56,16 @@ async function orchestratePumbler(
   log: typeof console.log,
   data: LoginCredentials,
 ) {
-  log('Authenticating...')
-  await authenticate(data)
-  log('Saving account details...')
-  await saveToKeychain(data)
-  log(`Successfully logged in as ${data.account}!`)
+  try {
+    log('Authenticating...')
+    await authenticate(data)
+    log('Saving account details...')
+    await saveToKeychain(data)
+    log(`Successfully logged in as ${data.account}!`)
+  } catch (exception) {
+    log(`Failed authentication with ${exception}`)
+    throw exception
+  }
 }
 
 export default class Login extends Command {
