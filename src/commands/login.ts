@@ -49,7 +49,7 @@ function orchestratePorcelain(data: LoginCredentials, isNew?: boolean) {
       task: () => saveToKeychain(data),
       enabled: () => isNew || false,
     },
-  ])
+  ]).run()
 }
 
 async function orchestratePumbler(
@@ -64,6 +64,7 @@ async function orchestratePumbler(
     log(`Successfully logged in as ${data.account}!`)
   } catch (exception) {
     log(`Failed authentication with ${exception}`)
+    // rethrow exception so we exit with non-zero code
     throw exception
   }
 }
@@ -88,7 +89,7 @@ export default class Login extends Command {
       }
 
       const {chosen, isNew} = await chooseAccount()
-      await orchestratePorcelain(chosen, isNew).run()
+      await orchestratePorcelain(chosen, isNew)
       this.log(
         "✨ You've been successfully logged in. You can now use all labor's features",
       )
