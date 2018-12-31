@@ -3,7 +3,7 @@ import {validate} from 'isemail'
 
 export function user(
   credentials: Array<LoginCredentials>,
-): Promise<{ chosen: LoginCredentials }> {
+): Promise<{ chosen: LoginCredentials | null }> {
   return inquirer.prompt([
     {
       name: 'chosen',
