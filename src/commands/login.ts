@@ -16,13 +16,13 @@ async function chooseAccount(): Promise<{
     return {chosen: await Prompt.credentials()}
   }
 
-  const credential = await Prompt.user(credentials)
+  const {chosen} = await Prompt.user(credentials)
 
-  if (credential.chosen === null) {
+  if (chosen === null) {
     return {chosen: await Prompt.credentials(), isNew: true}
   }
 
-  return credential
+  return {chosen}
 }
 
 function orchestratePorcelain(data: LoginCredentials, isNew?: boolean) {
