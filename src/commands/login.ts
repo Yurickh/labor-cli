@@ -1,29 +1,56 @@
 import {Command, flags} from '@oclif/command'
 import * as inquirer from 'inquirer'
 import {validate} from 'isemail'
+import * as keytar from 'keytar'
 import * as Listr from 'listr'
+import * as os from 'os'
 
 import baseAPI from '../base-api'
 
-type LoginCredentials = { email: string; password: string }
+type LoginCredentials = { account: string; password: string }
 
 async function authenticate(data: LoginCredentials) {
-  const result = await baseAPI('auth/sign_in').post(data)
+  const result = await baseAPI('auth/sign_in').post({
+    email: data.account,
+    password: data.password,
+  })
 
-  if (!result.success) {
+  if (result.errors) {
     throw new Error(result.errors[0])
   }
 
   return result
 }
 
+function promptUser(
+  credentials: Array<LoginCredentials>,
+): Promise<{ chosen: LoginCredentials }> {
+  return inquirer.prompt([
+    {
+      name: 'chosen',
+      message: 'Which account do you want to use to login with getlabor.com?',
+      type: 'list',
+      choices: [
+        ...credentials.map(credential => ({
+          name: credential.account,
+          value: credential,
+        })),
+        {
+          name: 'Login with another account',
+          value: null,
+        },
+      ],
+    },
+  ])
+}
+
 function promptLoginData(): Promise<LoginCredentials> {
   return inquirer.prompt([
     {
-      name: 'email',
+      name: 'account',
       message: 'Email:',
       type: 'input',
-      validate: email => validate(email) || 'Please provide a valid email',
+      validate: account => validate(account) || 'Please provide a valid email',
     },
     {
       name: 'password',
@@ -33,7 +60,37 @@ function promptLoginData(): Promise<LoginCredentials> {
   ])
 }
 
-function taskList(data: LoginCredentials) {
+async function chooseAccount(): Promise<{
+  chosen: LoginCredentials;
+  isNew?: boolean;
+}> {
+  const credentials = await keytar.findCredentials('br.com.getlabor')
+
+  if (credentials === null || credentials.length === 0) {
+    return {chosen: await promptLoginData()}
+  }
+
+  const credential = await promptUser(credentials)
+
+  if (credential.chosen === null) {
+    return {chosen: await promptLoginData(), isNew: true}
+  }
+
+  return credential
+}
+
+function keychain() {
+  switch (os.platform()) {
+  case 'darwin':
+    return 'keychain'
+  case 'win32':
+    return 'credential vault'
+  default:
+    return 'secret service'
+  }
+}
+
+function taskList(data: LoginCredentials, isNew?: boolean) {
   return new Listr([
     {
       title: 'Authenticating',
@@ -48,6 +105,12 @@ function taskList(data: LoginCredentials) {
         }
       },
     },
+    {
+      title: `Saving account on ${keychain()}`,
+      task: () =>
+        keytar.setPassword('br.com.getlabor', data.account, data.password),
+      enabled: () => isNew || false,
+    },
   ])
 }
 
@@ -60,9 +123,14 @@ export default class Login extends Command {
 
   async run() {
     try {
-      const result = await taskList(await promptLoginData()).run()
+      const {chosen, isNew} = await chooseAccount()
+      const result = await taskList(chosen, isNew).run()
       this.log(result)
-    } catch (_exception) {
+    } catch (exception) {
+      // if (process.env.NODE_ENV !== 'production') {
+      //   this.error(exception)
+      // }
+
       this.exit(1)
     }
   }
