@@ -127,10 +127,6 @@ export default class Login extends Command {
       const result = await taskList(chosen, isNew).run()
       this.log(result)
     } catch (exception) {
-      // if (process.env.NODE_ENV !== 'production') {
-      //   this.error(exception)
-      // }
-
       this.exit(1)
     }
   }
