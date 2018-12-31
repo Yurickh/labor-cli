@@ -25,6 +25,10 @@ async function chooseAccount(): Promise<{
   return {chosen}
 }
 
+function saveToKeychain(data: LoginCredentials) {
+  return keytar.setPassword('br.com.getlabor', data.account, data.password)
+}
+
 function orchestratePorcelain(data: LoginCredentials, isNew?: boolean) {
   return new Listr([
     {
@@ -42,11 +46,21 @@ function orchestratePorcelain(data: LoginCredentials, isNew?: boolean) {
     },
     {
       title: `Saving account on ${keychain()}`,
-      task: () =>
-        keytar.setPassword('br.com.getlabor', data.account, data.password),
+      task: () => saveToKeychain(data),
       enabled: () => isNew || false,
     },
   ])
+}
+
+async function orchestratePumbler(
+  log: typeof console.log,
+  data: LoginCredentials,
+) {
+  log('Authenticating...')
+  await authenticate(data)
+  log('Saving account details...')
+  await saveToKeychain(data)
+  log(`Successfully logged in as ${data.account}!`)
 }
 
 export default class Login extends Command {
@@ -54,10 +68,20 @@ export default class Login extends Command {
 
   static flags = {
     help: flags.help({char: 'h'}),
+    account: flags.string({char: 'a', dependsOn: ['password']}),
+    password: flags.string({char: 'p', dependsOn: ['account']}),
   }
 
   async run() {
     try {
+      const {flags} = this.parse(Login)
+      const {account, password} = flags
+
+      if (account && password) {
+        await orchestratePumbler(this.log, {account, password})
+        this.exit(0)
+      }
+
       const {chosen, isNew} = await chooseAccount()
       await orchestratePorcelain(chosen, isNew).run()
       this.log(
