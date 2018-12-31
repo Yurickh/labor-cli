@@ -3,9 +3,9 @@ import * as inquirer from 'inquirer'
 import {validate} from 'isemail'
 import * as keytar from 'keytar'
 import * as Listr from 'listr'
-import * as os from 'os'
 
 import baseAPI from '../base-api'
+import keychain from '../keychain'
 
 type LoginCredentials = { account: string; password: string }
 
@@ -79,18 +79,7 @@ async function chooseAccount(): Promise<{
   return credential
 }
 
-function keychain() {
-  switch (os.platform()) {
-  case 'darwin':
-    return 'keychain'
-  case 'win32':
-    return 'credential vault'
-  default:
-    return 'secret service'
-  }
-}
-
-function taskList(data: LoginCredentials, isNew?: boolean) {
+function orchestratePorcelain(data: LoginCredentials, isNew?: boolean) {
   return new Listr([
     {
       title: 'Authenticating',
@@ -124,8 +113,10 @@ export default class Login extends Command {
   async run() {
     try {
       const {chosen, isNew} = await chooseAccount()
-      const result = await taskList(chosen, isNew).run()
-      this.log(result)
+      await orchestratePorcelain(chosen, isNew).run()
+      this.log(
+        "✨ You've been successfully logged in. You can now use all labor's features",
+      )
     } catch (exception) {
       this.exit(1)
     }
