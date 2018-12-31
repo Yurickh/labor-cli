@@ -2,8 +2,8 @@ import {Command, flags} from '@oclif/command'
 import * as keytar from 'keytar'
 import * as Listr from 'listr'
 
-import keychain from '../keychain'
 import authenticate from '../login/authenticate'
+import keychain from '../login/keychain'
 import * as Prompt from '../login/prompt'
 
 async function chooseAccount(): Promise<{
