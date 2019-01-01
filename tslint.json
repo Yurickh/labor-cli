@@ -7,6 +7,13 @@
       {
         "ignore-pattern": "^_"
       }
+    ],
+    "ter-indent": [
+      true,
+      2,
+      {
+        "SwitchCase": 1
+      }
     ]
   }
 }

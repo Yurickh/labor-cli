@@ -84,11 +84,13 @@ export default class Login extends Command {
       const {flags} = this.parse(Login)
       const {account, password} = flags
 
+      // pumbling mode
       if (account && password) {
         await orchestratePumbler(this.log, {account, password})
         return true
       }
 
+      // porcelain mode
       const {chosen, isNew} = await chooseAccount()
       await orchestratePorcelain(chosen, isNew)
       this.log(
