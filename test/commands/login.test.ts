@@ -1,7 +1,7 @@
-import {expect, test} from '@oclif/test'
+import { expect, test } from '@oclif/test'
 import * as sinon from 'sinon'
 
-import {root} from '../../src/base-api'
+import { root } from '../../src/base-api'
 import mockInquirer from '../mocks/inquirer'
 import mockKeytar from '../mocks/keytar'
 import mockCurrentUser from '../mocks/current-user'
@@ -13,7 +13,7 @@ describe('login', () => {
   const testFailed = test.nock(root, api =>
     api
       .post('/auth/sign_in')
-      .reply(401, {success: false, errors: ['Invalid email']}),
+      .reply(401, { success: false, errors: ['Invalid email'] }),
   )
 
   const pumblingCommand = ['login', '-a', 'yurick@email.com', '-p', 'saf3pa5s']
@@ -64,7 +64,7 @@ describe('login', () => {
   testSuccess
     .stdout()
     .do(() =>
-      keychain.push({account: 'yurick@email.com', password: 'saf3pa5s'}),
+      keychain.push({ account: 'yurick@email.com', password: 'saf3pa5s' }),
     )
     .command(porcelainCommand)
     .it('enables choosing a previous option', ctx => {

@@ -20,6 +20,7 @@
       {
         "module-source-path": "any"
       }
-    ]
+    ],
+    "object-curly-spacing": [true, "always"]
   }
 }

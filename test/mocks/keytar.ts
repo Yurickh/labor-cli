@@ -1,7 +1,7 @@
 import * as keytar from 'keytar'
-import {SinonSandbox} from 'sinon'
+import { SinonSandbox } from 'sinon'
 
-import {LoginCredentials} from '../../src/login/types'
+import { LoginCredentials } from '../../src/login/types'
 
 export default function mockKeytar(sandbox: SinonSandbox) {
   const keychain: Array<LoginCredentials> = []
@@ -12,7 +12,7 @@ export default function mockKeytar(sandbox: SinonSandbox) {
   sandbox
     .stub(keytar, 'setPassword')
     .callsFake(async (_domain, account, password) => {
-      keychain.push({account, password})
+      keychain.push({ account, password })
     })
 
   return keychain

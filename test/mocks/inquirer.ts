@@ -1,5 +1,5 @@
 import * as inquirer from 'inquirer'
-import {SinonSandbox} from 'sinon'
+import { SinonSandbox } from 'sinon'
 
 function mockResponse(question: inquirer.Question<{}>) {
   switch (question.type) {

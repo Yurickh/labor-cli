@@ -1,4 +1,4 @@
-import {SinonSandbox} from 'sinon'
+import { SinonSandbox } from 'sinon'
 
 import currentUser from '../../src/login/current-user'
 

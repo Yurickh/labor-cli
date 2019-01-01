@@ -1,6 +1,6 @@
 import * as fs from 'fs'
-import {expect} from 'chai'
-import currentUser, {rootPath} from '../../src/login/current-user'
+import { expect } from 'chai'
+import currentUser, { rootPath } from '../../src/login/current-user'
 
 describe('currentUser', () => {
   let originalUser: string

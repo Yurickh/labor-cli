@@ -1,7 +1,7 @@
 import * as inquirer from 'inquirer'
-import {validate} from 'isemail'
+import { validate } from 'isemail'
 
-import {LoginCredentials} from './types'
+import { LoginCredentials } from './types'
 
 export function user(
   credentials: Array<LoginCredentials>,

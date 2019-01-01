@@ -1,4 +1,4 @@
-import {Command, flags} from '@oclif/command'
+import { Command, flags } from '@oclif/command'
 import * as keytar from 'keytar'
 import * as Listr from 'listr'
 
@@ -6,7 +6,7 @@ import authenticate from '../login/authenticate'
 import keychain from '../login/keychain'
 import * as Prompt from '../login/prompt'
 import currentUser from '../login/current-user'
-import {LoginCredentials} from '../login/types'
+import { LoginCredentials } from '../login/types'
 
 async function chooseAccount(): Promise<{
   chosen: LoginCredentials;
@@ -15,16 +15,16 @@ async function chooseAccount(): Promise<{
   const credentials = await keytar.findCredentials('br.com.getlabor')
 
   if (credentials.length === 0) {
-    return {chosen: await Prompt.credentials()}
+    return { chosen: await Prompt.credentials() }
   }
 
-  const {chosen} = await Prompt.user(credentials)
+  const { chosen } = await Prompt.user(credentials)
 
   if (chosen === null) {
-    return {chosen: await Prompt.credentials(), isNew: true}
+    return { chosen: await Prompt.credentials(), isNew: true }
   }
 
-  return {chosen}
+  return { chosen }
 }
 
 function saveToKeychain(data: LoginCredentials) {
@@ -80,24 +80,24 @@ export default class Login extends Command {
   static description = 'Enter your credentials to start using Labor.'
 
   static flags = {
-    help: flags.help({char: 'h'}),
-    account: flags.string({char: 'a', dependsOn: ['password']}),
-    password: flags.string({char: 'p', dependsOn: ['account']}),
+    help: flags.help({ char: 'h' }),
+    account: flags.string({ char: 'a', dependsOn: ['password'] }),
+    password: flags.string({ char: 'p', dependsOn: ['account'] }),
   }
 
   async run() {
     try {
-      const {flags} = this.parse(Login)
-      const {account, password} = flags
+      const { flags } = this.parse(Login)
+      const { account, password } = flags
 
       // pumbling mode
       if (account && password) {
-        await orchestratePumbler(this.log, {account, password})
+        await orchestratePumbler(this.log, { account, password })
         return true
       }
 
       // porcelain mode
-      const {chosen, isNew} = await chooseAccount()
+      const { chosen, isNew } = await chooseAccount()
       await orchestratePorcelain(chosen, isNew)
       this.log("✨ You've been successfully logged in.")
     } catch (exception) {

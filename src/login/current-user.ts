@@ -21,7 +21,7 @@ export function get() {
 }
 
 export function set(user: string) {
-  fs.mkdirSync(rootPath, {recursive: true})
+  fs.mkdirSync(rootPath, { recursive: true })
   fs.writeFileSync(`${rootPath}/config.json`, baseConfig(user), 'utf8')
 }
 
