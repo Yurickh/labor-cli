@@ -25,14 +25,12 @@ function mockResponse(question: inquirer.Question<{}>) {
 export default function mockInquirer(sandbox: SinonSandbox) {
   sandbox.stub(inquirer, 'prompt').callsFake(async options => {
     if (Array.isArray(options)) {
-      return Promise.resolve(
-        options.reduce(
-          (obj, cur) => ({
-            ...obj,
-            [cur.name]: mockResponse(cur),
-          }),
-          {},
-        ),
+      return options.reduce(
+        (obj, cur) => ({
+          ...obj,
+          [cur.name]: mockResponse(cur),
+        }),
+        {},
       )
     }
     return options

@@ -19,10 +19,13 @@ describe('login', () => {
   const porcelainCommand = ['login']
 
   let sandbox: sinon.SinonSandbox
+  let keychain: Array<{ account: string; password: string }>
 
   beforeEach(() => {
     sandbox = sinon.createSandbox()
-    mockKeytar(sandbox)
+    keychain = mockKeytar(sandbox)
+    // COMBAK: Look up alternatives to mock inquirer.
+    // I really would love to test the login functionality alongside it
     mockInquirer(sandbox)
   })
 
@@ -53,6 +56,16 @@ describe('login', () => {
     .stdout()
     .command(porcelainCommand)
     .it('properly logs the user on porcelain mode', ctx => {
+      expect(ctx.stdout).to.contain("✨ You've been successfully logged in.")
+    })
+
+  testSuccess
+    .stdout()
+    .do(() =>
+      keychain.push({account: 'yurick@email.com', password: 'saf3pa5s'}),
+    )
+    .command(porcelainCommand)
+    .it('enables choosing a previous option', ctx => {
       expect(ctx.stdout).to.contain("✨ You've been successfully logged in.")
     })
 })

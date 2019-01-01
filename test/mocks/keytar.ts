@@ -14,4 +14,6 @@ export default function mockKeytar(sandbox: SinonSandbox) {
     .callsFake(async (_domain, account, password) => {
       keychain.push({account, password})
     })
+
+  return keychain
 }
