@@ -28,7 +28,6 @@ async function chooseAccount(): Promise<{
 }
 
 function saveToKeychain(data: LoginCredentials) {
-  currentUser.set(data.account)
   return keytar.setPassword('br.com.getlabor', data.account, data.password)
 }
 
@@ -46,6 +45,10 @@ function orchestratePorcelain(data: LoginCredentials, isNew?: boolean) {
           return Promise.reject(exception)
         }
       },
+    },
+    {
+      title: 'Taking notes',
+      task: () => currentUser.set(data.account),
     },
     {
       title: `Saving account on ${keychain()}`,
