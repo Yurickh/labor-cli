@@ -93,9 +93,7 @@ export default class Login extends Command {
       // porcelain mode
       const {chosen, isNew} = await chooseAccount()
       await orchestratePorcelain(chosen, isNew)
-      this.log(
-        "✨ You've been successfully logged in. You can now use all labor's features",
-      )
+      this.log("✨ You've been successfully logged in.")
     } catch (exception) {
       // this.error(exception)
       this.exit(1)

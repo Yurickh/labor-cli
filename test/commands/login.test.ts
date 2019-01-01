@@ -24,7 +24,7 @@ describe('login', () => {
   beforeEach(() => {
     sandbox = sinon.createSandbox()
     keychain = mockKeytar(sandbox)
-    // COMBAK: Look up alternatives to mock inquirer.
+    // COMBAK: Look up alternatives to mocking inquirer.
     // I really would love to test the login functionality alongside it
     mockInquirer(sandbox)
   })
