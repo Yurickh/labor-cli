@@ -4,6 +4,7 @@ import * as sinon from 'sinon'
 import {root} from '../../src/base-api'
 import mockInquirer from '../mocks/inquirer'
 import mockKeytar from '../mocks/keytar'
+import mockCurrentUser from '../mocks/current-user'
 
 describe('login', () => {
   const testSuccess = test.nock(root, api =>
@@ -24,6 +25,7 @@ describe('login', () => {
   beforeEach(() => {
     sandbox = sinon.createSandbox()
     keychain = mockKeytar(sandbox)
+    mockCurrentUser(sandbox)
     // COMBAK: Look up alternatives to mocking inquirer.
     // I really would love to test the login functionality alongside it
     mockInquirer(sandbox)

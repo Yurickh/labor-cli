@@ -5,6 +5,7 @@ import * as Listr from 'listr'
 import authenticate from '../login/authenticate'
 import keychain from '../login/keychain'
 import * as Prompt from '../login/prompt'
+import currentUser from '../login/current-user'
 import {LoginCredentials} from '../login/types'
 
 async function chooseAccount(): Promise<{
@@ -27,6 +28,7 @@ async function chooseAccount(): Promise<{
 }
 
 function saveToKeychain(data: LoginCredentials) {
+  currentUser.set(data.account)
   return keytar.setPassword('br.com.getlabor', data.account, data.password)
 }
 
