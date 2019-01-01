@@ -66,6 +66,7 @@ async function orchestratePumbler(
     log('Authenticating...')
     await authenticate(data)
     log('Saving account details...')
+    currentUser.set(data.account)
     await saveToKeychain(data)
     log(`Successfully logged in as ${data.account}!`)
   } catch (exception) {
