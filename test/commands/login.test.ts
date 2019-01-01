@@ -4,11 +4,18 @@ import * as sinon from 'sinon'
 import { root } from '../../src/base-api'
 import mockInquirer from '../mocks/inquirer'
 import mockKeytar from '../mocks/keytar'
-import mockCurrentUser from '../mocks/current-user'
+import mockConfig from '../mocks/config'
 
 describe('login', () => {
   const testSuccess = test.nock(root, api =>
-    api.post('/auth/sign_in').reply(200, {}),
+    api.post('/auth/sign_in').reply(
+      200,
+      {},
+      {
+        'token-type': 'Bearer',
+        'access-token': 'ace5s-70ken',
+      },
+    ),
   )
   const testFailed = test.nock(root, api =>
     api
@@ -25,7 +32,7 @@ describe('login', () => {
   beforeEach(() => {
     sandbox = sinon.createSandbox()
     keychain = mockKeytar(sandbox)
-    mockCurrentUser(sandbox)
+    mockConfig(sandbox)
     // COMBAK: Look up alternatives to mocking inquirer.
     // I really would love to test the login functionality alongside it
     mockInquirer(sandbox)

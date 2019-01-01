@@ -19,7 +19,7 @@ export default function baseAPI(uri: string) {
           'x-key-inflection': 'camel',
         },
         body: JSON.stringify(data),
-      }).then(response => response.json())
+      })
     },
   }
 }

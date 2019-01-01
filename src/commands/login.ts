@@ -5,7 +5,7 @@ import * as Listr from 'listr'
 import authenticate from '../login/authenticate'
 import keychain from '../login/keychain'
 import * as Prompt from '../login/prompt'
-import currentUser from '../login/current-user'
+import Config from '../config'
 import { LoginCredentials } from '../login/types'
 
 async function chooseAccount(): Promise<{
@@ -37,9 +37,9 @@ function orchestratePorcelain(data: LoginCredentials, isNew?: boolean) {
       title: 'Authenticating',
       task: async ctx => {
         try {
-          const result = await authenticate(data)
-          ctx.result = result
-          return result
+          const token = await authenticate(data)
+          ctx.token = token
+          return token
         } catch (exception) {
           ctx.error = exception
           return Promise.reject(exception)
@@ -48,7 +48,8 @@ function orchestratePorcelain(data: LoginCredentials, isNew?: boolean) {
     },
     {
       title: 'Taking notes',
-      task: () => currentUser.set(data.account),
+      task: ctx =>
+        Config.set({ currentUser: data.account, accessToken: ctx.token }),
     },
     {
       title: `Saving account on ${keychain()}`,
@@ -64,9 +65,9 @@ async function orchestratePumbler(
 ) {
   try {
     log('Authenticating...')
-    await authenticate(data)
+    const token = await authenticate(data)
     log('Saving account details...')
-    currentUser.set(data.account)
+    Config.set({ currentUser: data.account, accessToken: token })
     await saveToKeychain(data)
     log(`Successfully logged in as ${data.account}!`)
   } catch (exception) {
@@ -101,6 +102,7 @@ export default class Login extends Command {
       await orchestratePorcelain(chosen, isNew)
       this.log("✨ You've been successfully logged in.")
     } catch (exception) {
+      // Uncomment next line to have meaningful errors for debugging, but don't leave it uncommented
       // this.error(exception)
       this.exit(1)
     }
