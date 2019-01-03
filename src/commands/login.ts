@@ -82,8 +82,18 @@ export default class Login extends Command {
 
   static flags = {
     help: flags.help({ char: 'h' }),
-    account: flags.string({ char: 'a', dependsOn: ['password'] }),
-    password: flags.string({ char: 'p', dependsOn: ['account'] }),
+    account: flags.string({
+      char: 'a',
+      dependsOn: ['password'],
+      description:
+        'Optional email. Pass only if you need to call this command programatically.',
+    }),
+    password: flags.string({
+      char: 'p',
+      dependsOn: ['account'],
+      description:
+        'Optional password. Pass only if you need to call this command programatically.',
+    }),
   }
 
   async run() {
