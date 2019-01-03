@@ -1,8 +1,13 @@
-import { Command } from '@oclif/command'
-
+import { Command, flags } from '@oclif/command'
 import Config from '../config'
 
 export default class Start extends Command {
+  static description = 'Start a new task'
+
+  static flags = {
+    help: flags.help({ char: 'h' }),
+  }
+
   async run() {
     const config = Config.get()
 

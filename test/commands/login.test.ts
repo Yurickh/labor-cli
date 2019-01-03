@@ -1,5 +1,5 @@
 import { expect, test } from '@oclif/test'
-import sinon from 'sinon'
+import * as sinon from 'sinon'
 
 import { root } from '../../src/base-api'
 import mockInquirer from '../mocks/inquirer'

@@ -10,6 +10,7 @@ CLI interface for managing your tasks on Labor
 
 <!-- toc -->
 
+- [labor-cli](#labor-cli)
 - [Usage](#usage)
 - [Commands](#commands)
   <!-- tocstop -->
@@ -36,30 +37,10 @@ USAGE
 
 <!-- commands -->
 
-- [`labor hello [FILE]`](#labor-hello-file)
 - [`labor help [COMMAND]`](#labor-help-command)
-- [`labor login [FILE]`](#labor-login-file)
-
-## `labor hello [FILE]`
-
-describe the command here
-
-```
-USAGE
-  $ labor hello [FILE]
-
-OPTIONS
-  -f, --force
-  -h, --help       show CLI help
-  -n, --name=name  name to print
-  -v, --version    show CLI version
-
-EXAMPLE
-  $ labor hello
-  hello world from ./src/hello.ts!
-```
-
-_See code: [src/commands/hello.ts](https://github.com/Yurickh/labor-cli/blob/v0.0.0/src/commands/hello.ts)_
+- [`labor login`](#labor-login)
+- [`labor re`](#labor-re)
+- [`labor start [FILE]`](#labor-start-file)
 
 ## `labor help [COMMAND]`
 
@@ -78,13 +59,38 @@ OPTIONS
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v2.1.4/src/commands/help.ts)_
 
-## `labor login [FILE]`
+## `labor login`
+
+Enter your credentials to start using Labor.
+
+```
+USAGE
+  $ labor login
+
+OPTIONS
+  -a, --account=account
+  -h, --help               show CLI help
+  -p, --password=password
+```
+
+_See code: [src/commands/login.ts](https://github.com/Yurickh/labor-cli/blob/v0.0.0/src/commands/login.ts)_
+
+## `labor re`
+
+```
+USAGE
+  $ labor re
+```
+
+_See code: [src/commands/re.ts](https://github.com/Yurickh/labor-cli/blob/v0.0.0/src/commands/re.ts)_
+
+## `labor start [FILE]`
 
 describe the command here
 
 ```
 USAGE
-  $ labor login [FILE]
+  $ labor start [FILE]
 
 OPTIONS
   -f, --force
@@ -92,6 +98,6 @@ OPTIONS
   -n, --name=name  name to print
 ```
 
-_See code: [src/commands/login.ts](https://github.com/Yurickh/labor-cli/blob/v0.0.0/src/commands/login.ts)_
+_See code: [src/commands/start.ts](https://github.com/Yurickh/labor-cli/blob/v0.0.0/src/commands/start.ts)_
 
 <!-- commandsstop -->
