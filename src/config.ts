@@ -8,11 +8,6 @@ export type ConfigType = {
   auth: AuthCredentials;
 }
 
-type PartialConfigType = {
-  user?: User;
-  auth?: AuthCredentials;
-} | null
-
 export const rootPath = '/usr/local/lib/labor-cli'
 
 export function get(): ConfigType | null {
@@ -31,7 +26,7 @@ export function get(): ConfigType | null {
   }
 }
 
-export function set(config: PartialConfigType) {
+export function set(config: Partial<ConfigType> | null) {
   if (config === null) return
 
   fs.mkdirSync(rootPath, { recursive: true })
