@@ -42,7 +42,12 @@ export function set(config: PartialConfigType) {
   )
 }
 
+export function remove() {
+  fs.unlinkSync(`${rootPath}/config.json`)
+}
+
 export default {
   get,
   set,
+  remove,
 }

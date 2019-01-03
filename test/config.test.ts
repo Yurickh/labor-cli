@@ -1,12 +1,12 @@
-import * as fs from 'fs'
 import { expect } from 'chai'
-import Config, { ConfigType, rootPath } from '../src/config'
+import Config, { ConfigType } from '../src/config'
 
 describe('Config', () => {
   let originalConfig: ConfigType | null
 
   beforeEach(() => {
     originalConfig = Config.get()
+    Config.remove()
   })
 
   afterEach(() => {
@@ -15,20 +15,25 @@ describe('Config', () => {
 
   it('saves the user persistently', () => {
     const config = {
-      currentUser: 'yurick@email.com',
-      accessToken: 'access-token',
+      auth: {
+        uid: 'yurick@email.com',
+        client: 'client',
+        'access-token': 'access-token',
+        'token-type': 'Bearer',
+      },
     }
     Config.set(config)
     expect(Config.get()).to.deep.equal(config)
   })
 
   it("doesn't break when running on an empty canvas", () => {
-    fs.unlinkSync(`${rootPath}/config.json`)
-    fs.rmdirSync(rootPath)
-
     const config = {
-      currentUser: 'maria@email.com',
-      accessToken: 'safe-access',
+      auth: {
+        uid: 'maria@email.com',
+        client: 'client',
+        'access-token': 'safe-access',
+        'token-type': 'Bearer',
+      },
     }
 
     expect(Config.get()).to.be.null
@@ -38,8 +43,12 @@ describe('Config', () => {
 
   it('is noop when receiving null', () => {
     const config = {
-      currentUser: 'maria@email.com',
-      accessToken: 'safe-space',
+      auth: {
+        uid: 'maria@email.com',
+        client: 'client',
+        'access-token': 'safe-access',
+        'token-type': 'Bearer',
+      },
     }
     Config.set(config)
     Config.set(null)
