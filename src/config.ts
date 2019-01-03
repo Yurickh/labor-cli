@@ -1,13 +1,16 @@
 import * as fs from 'fs'
 
+import { User } from './common/types'
+import { AuthCredentials } from './login/types'
+
 export type ConfigType = {
-  currentUser: string;
-  accessToken: string;
+  user: User;
+  auth: AuthCredentials;
 }
 
 type PartialConfigType = {
-  currentUser?: string;
-  accessToken?: string;
+  user?: User;
+  auth?: AuthCredentials;
 } | null
 
 export const rootPath = '/usr/local/lib/labor-cli'

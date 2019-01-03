@@ -37,9 +37,9 @@ function orchestratePorcelain(data: LoginCredentials, isNew?: boolean) {
       title: 'Authenticating',
       task: async ctx => {
         try {
-          const token = await authenticate(data)
-          ctx.token = token
-          return token
+          const config = await authenticate(data)
+          ctx.config = config
+          return config
         } catch (exception) {
           ctx.error = exception
           return Promise.reject(exception)
@@ -47,9 +47,8 @@ function orchestratePorcelain(data: LoginCredentials, isNew?: boolean) {
       },
     },
     {
-      title: 'Taking notes',
-      task: ctx =>
-        Config.set({ currentUser: data.account, accessToken: ctx.token }),
+      title: 'Saving account details',
+      task: ctx => Config.set(ctx.config),
     },
     {
       title: `Saving account on ${keychain()}`,
@@ -65,10 +64,12 @@ async function orchestratePumbler(
 ) {
   try {
     log('Authenticating...')
-    const token = await authenticate(data)
+    const config = await authenticate(data)
+
     log('Saving account details...')
-    Config.set({ currentUser: data.account, accessToken: token })
+    Config.set(config)
     await saveToKeychain(data)
+
     log(`Successfully logged in as ${data.account}!`)
   } catch (exception) {
     log(`Failed authentication with ${exception}`)

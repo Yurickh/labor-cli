@@ -1,8 +1,11 @@
 import baseAPI from '../base-api'
 
-import { LoginCredentials } from './types'
+import { AuthCredentials, LoginCredentials } from './types'
+import { User } from '../common/types'
 
-export default async function authenticate(data: LoginCredentials) {
+export default async function authenticate(
+  data: LoginCredentials,
+): Promise<{ auth: AuthCredentials; data: User }> {
   const response = await baseAPI('auth/sign_in').post({
     email: data.account,
     password: data.password,
@@ -14,8 +17,13 @@ export default async function authenticate(data: LoginCredentials) {
     throw new Error(result.errors[0])
   }
 
-  return [
-    response.headers.get('token-type'),
-    response.headers.get('access-token'),
-  ].join(' ')
+  return {
+    auth: {
+      'token-type': response.headers.get('token-type') || '',
+      'access-token': response.headers.get('access-token') || '',
+      client: response.headers.get('client') || '',
+      uid: response.headers.get('uid') || '',
+    },
+    data: result.data,
+  }
 }
