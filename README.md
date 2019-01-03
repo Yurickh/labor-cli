@@ -9,16 +9,12 @@ CLI interface for managing your tasks on Labor
 [![License](https://img.shields.io/npm/l/labor-cli.svg)](https://github.com/Yurickh/labor-cli/blob/master/package.json)
 
 <!-- toc -->
+* [labor-cli](#labor-cli)
+<!-- tocstop -->
 
-- [labor-cli](#labor-cli)
-- [Usage](#usage)
-- [Commands](#commands)
-  <!-- tocstop -->
-
-# Usage
+## Usage
 
 <!-- usage -->
-
 ```sh-session
 $ npm install -g labor-cli
 $ labor COMMAND
@@ -30,17 +26,14 @@ USAGE
   $ labor COMMAND
 ...
 ```
-
 <!-- usagestop -->
 
-# Commands
+## Commands
 
 <!-- commands -->
-
-- [`labor help [COMMAND]`](#labor-help-command)
-- [`labor login`](#labor-login)
-- [`labor re`](#labor-re)
-- [`labor start [FILE]`](#labor-start-file)
+* [`labor help [COMMAND]`](#labor-help-command)
+* [`labor login`](#labor-login)
+* [`labor start`](#labor-start)
 
 ## `labor help [COMMAND]`
 
@@ -68,36 +61,25 @@ USAGE
   $ labor login
 
 OPTIONS
-  -a, --account=account
+  -a, --account=account    Optional email. Pass only if you need to call this command programatically.
   -h, --help               show CLI help
-  -p, --password=password
+  -p, --password=password  Optional password. Pass only if you need to call this command programatically.
 ```
 
 _See code: [src/commands/login.ts](https://github.com/Yurickh/labor-cli/blob/v0.0.0/src/commands/login.ts)_
 
-## `labor re`
+## `labor start`
+
+Start a new task
 
 ```
 USAGE
-  $ labor re
-```
-
-_See code: [src/commands/re.ts](https://github.com/Yurickh/labor-cli/blob/v0.0.0/src/commands/re.ts)_
-
-## `labor start [FILE]`
-
-describe the command here
-
-```
-USAGE
-  $ labor start [FILE]
+  $ labor start
 
 OPTIONS
-  -f, --force
-  -h, --help       show CLI help
-  -n, --name=name  name to print
+  -h, --help   show CLI help
+  --name=name
 ```
 
 _See code: [src/commands/start.ts](https://github.com/Yurickh/labor-cli/blob/v0.0.0/src/commands/start.ts)_
-
 <!-- commandsstop -->
