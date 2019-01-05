@@ -33,15 +33,21 @@ export default class Start extends Command {
       return false
     }
 
-    if (!config.projects) {
+    try {
       await new Listr([
         {
           title: 'Fetching projects...',
           task: async () => {
-            config = Config.set({ projects: await Project.sync() })
+            const projects = await Project.all()
+            config = Config.set({ projects })
           },
+          enabled: () => !config || !config.projects,
         },
-      ])
+      ]).run()
+    } catch (exception) {
+      // Uncomment next line to have meaningful errors for debugging, but don't leave it uncommented
+      // this.error(exception)
+      this.exit(1)
     }
   }
 }

@@ -48,7 +48,7 @@ function orchestratePorcelain(data: LoginCredentials, isNew?: boolean) {
     },
     {
       title: 'Saving account details',
-      task: ctx => Config.set(ctx.config),
+      task: async ctx => Config.set(ctx.config),
     },
     {
       title: `Saving account on ${keychain()}`,
