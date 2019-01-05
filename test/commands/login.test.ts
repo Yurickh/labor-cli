@@ -1,7 +1,7 @@
 import { expect, test } from '@oclif/test'
 import * as sinon from 'sinon'
 
-import { root } from '../../src/base-api'
+import { root } from '../../src/common/base-api'
 import mockInquirer from '../mocks/inquirer'
 import mockKeytar from '../mocks/keytar'
 import mockConfig from '../mocks/config'
