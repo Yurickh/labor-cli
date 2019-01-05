@@ -19,7 +19,7 @@ export function get(): ConfigType | null {
   } catch (exception) {
     const [type] = exception.message.split(': ')
 
-    // swallog enoent exceptions
+    // swallow enoent exceptions
     if (type !== 'ENOENT') {
       throw exception
     }

@@ -1,4 +1,4 @@
-import baseAPI from '../base-api'
+import baseAPI from '../common/base-api'
 
 import { AuthCredentials, LoginCredentials } from '../types/login'
 import { User } from '../types/common'

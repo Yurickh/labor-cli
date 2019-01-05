@@ -1,4 +1,4 @@
-import baseAPI from './base-api'
+import baseAPI from './common/base-api'
 import { Project } from './types/common'
 
 export async function all(): Promise<Project[]> {

@@ -1,5 +1,5 @@
 import fetch from 'node-fetch'
-import Config from './config'
+import Config from '../config'
 
 export const root = 'https://api.getlabor.com.br'
 
