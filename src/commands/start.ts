@@ -1,8 +1,6 @@
 import { Command, flags } from '@oclif/command'
-import * as Listr from 'listr'
 
-import Config from '../config'
-import Project from '../project'
+import orchestratePorcelain from '../start/porcelain'
 
 export default class Start extends Command {
   static description = 'Start a new task'
@@ -24,26 +22,8 @@ export default class Start extends Command {
   }
 
   async run() {
-    // const { flags } = this.parse(Start)
-    let config = Config.get()
-
-    if (config === null || !config.auth) {
-      this.log('🚨  You need to be logged in order to execute this action.')
-      this.exit(1)
-      return false
-    }
-
     try {
-      await new Listr([
-        {
-          title: 'Fetching projects...',
-          task: async () => {
-            const projects = await Project.all()
-            config = Config.set({ projects })
-          },
-          enabled: () => !config || !config.projects,
-        },
-      ]).run()
+      await orchestratePorcelain(this.log)
     } catch (exception) {
       // Uncomment next line to have meaningful errors for debugging, but don't leave it uncommented
       // this.error(exception)
