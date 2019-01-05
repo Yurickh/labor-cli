@@ -1,7 +1,7 @@
 import baseAPI from '../base-api'
 
-import { AuthCredentials, LoginCredentials } from './types'
-import { User } from '../common/types'
+import { AuthCredentials, LoginCredentials } from '../types/login'
+import { User } from '../types/common'
 
 export default async function authenticate(
   data: LoginCredentials,

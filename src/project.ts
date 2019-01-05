@@ -1,5 +1,5 @@
 import baseAPI from './base-api'
-import { Project } from './common/types'
+import { Project } from './types/common'
 
 export async function all(): Promise<Project[]> {
   const response = await baseAPI('/projects').get()

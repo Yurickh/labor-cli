@@ -6,7 +6,7 @@ import authenticate from '../login/authenticate'
 import keychain from '../login/keychain'
 import * as Prompt from '../login/prompt'
 import Config from '../config'
-import { LoginCredentials } from '../login/types'
+import { LoginCredentials } from '../types/login'
 
 async function chooseAccount(): Promise<{
   chosen: LoginCredentials;

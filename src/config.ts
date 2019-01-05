@@ -1,7 +1,7 @@
 import * as fs from 'fs'
 
-import { Project, User } from './common/types'
-import { AuthCredentials } from './login/types'
+import { Project, User } from './types/common'
+import { AuthCredentials } from './types/login'
 import overrideWithPartial from './common/override-with-partial'
 
 export type ConfigType = {
