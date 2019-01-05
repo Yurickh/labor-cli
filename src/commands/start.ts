@@ -1,6 +1,8 @@
 import { Command, flags } from '@oclif/command'
+import * as Listr from 'listr'
 
 import Config from '../config'
+import Project from '../project'
 
 export default class Start extends Command {
   static description = 'Start a new task'
@@ -23,12 +25,23 @@ export default class Start extends Command {
 
   async run() {
     // const { flags } = this.parse(Start)
-    const config = Config.get()
+    let config = Config.get()
 
-    if (config === null) {
+    if (config === null || !config.auth) {
       this.log('🚨  You need to be logged in order to execute this action.')
       this.exit(1)
       return false
+    }
+
+    if (!config.projects) {
+      await new Listr([
+        {
+          title: 'Fetching projects...',
+          task: async () => {
+            config = Config.set({ projects: await Project.sync() })
+          },
+        },
+      ])
     }
   }
 }

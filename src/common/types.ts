@@ -9,3 +9,14 @@ export type User = {
   email: string;
   allocations: Array<{ id: number; team: Team }>;
 }
+
+export type Project = {
+  id: number;
+  name: string;
+  description: string | null;
+  statis: 'running';
+  category:
+    | 'internal'
+    | 'external'
+    | 'management' /* management is deprecated, but still present */;
+}
