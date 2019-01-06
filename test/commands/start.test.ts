@@ -6,6 +6,8 @@ import mockInquirer from '../mocks/inquirer'
 import mockKeytar from '../mocks/keytar'
 import mockConfig from '../mocks/config'
 
+import login from '../helpers/login'
+
 describe('login', () => {
   const testSuccess = test
 
@@ -24,17 +26,6 @@ describe('login', () => {
     sandbox.restore()
   })
 
-  // function login() {
-  //   Config.set({
-  //     auth: {
-  //       uid: 'yurick@novatics.com.br',
-  //       'access-token': 'fr3eAce35s',
-  //       'token-type': 'Bearer',
-  //       client: 'the usual',
-  //     },
-  //   })
-  // }
-
   testSuccess
     .stdout()
     .command(['start'])
@@ -45,11 +36,11 @@ describe('login', () => {
       )
     })
 
-  // testSuccess
-  //   .do(login)
-  //   .stdout()
-  //   .command(['start'])
-  //   .it('properly starts a new task', ctx => {
-  //     expect(ctx.stdout).to.contain('Started task')
-  //   })
+  testSuccess
+    .do(login)
+    .stdout()
+    .command(['start', '-y'])
+    .it('properly starts a new task', ctx => {
+      expect(ctx.stdout).to.contain('Your task just started')
+    })
 })
