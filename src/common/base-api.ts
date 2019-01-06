@@ -16,6 +16,14 @@ function toDataURL(data: object) {
     .join('&')
 }
 
+async function failUnauthorized(response: Response) {
+  if (!response.ok && response.status === 401) {
+    return Promise.reject({ reauth: true })
+  }
+
+  return response
+}
+
 function updateAuthData(response: Response) {
   Config.set({
     auth: {
@@ -48,6 +56,7 @@ export default function baseAPI(uri: string) {
       fetch(`${root}/${stripLeadingSlash(uri)}?${toDataURL(data || {})}`, {
         headers,
       })
+        .then(failUnauthorized)
         .then(updateAuthData)
         .then(parseJSON),
     post: (data?: object) =>
@@ -56,6 +65,7 @@ export default function baseAPI(uri: string) {
         headers,
         body: JSON.stringify(data || {}),
       })
+        .then(failUnauthorized)
         .then(updateAuthData)
         .then(parseJSON),
   }

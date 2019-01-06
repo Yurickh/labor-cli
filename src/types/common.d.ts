@@ -20,3 +20,11 @@ export type Project = {
     | 'external'
     | 'management' /* management is deprecated, but still present */;
 }
+
+export type Task = {
+  id?: number;
+  description: string | null;
+  start: string | null;
+  end: string | null;
+  duration: number | null;
+}

@@ -26,7 +26,7 @@ export default class Start extends Command {
       await orchestratePorcelain(this.log)
     } catch (exception) {
       // Uncomment next line to have meaningful errors for debugging, but don't leave it uncommented
-      // this.error(exception)
+      // this.error(JSON.stringify(exception))
       this.exit(1)
     }
   }

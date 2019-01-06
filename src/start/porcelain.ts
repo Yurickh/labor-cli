@@ -3,6 +3,8 @@ import * as Listr from 'listr'
 import Config, { ConfigType } from '../config'
 import Project from '../project'
 
+import Task from '../labor-api/task'
+
 function fetchProjects(config: ConfigType) {
   return new Listr([
     {
@@ -27,5 +29,7 @@ export default async function porcelain(log: typeof console.log) {
   await fetchProjects(config)
   config = Config.get()
 
-  // ....
+  await Task.start()
+
+  log('✨  Your task just started')
 }
