@@ -17,7 +17,7 @@ function toDataURL(data: object) {
 }
 
 async function failUnauthorized(response: Response) {
-  if (!response.ok && response.status === 401) {
+  if (!response.ok && !response.body && response.status === 401) {
     return Promise.reject({ reauth: true })
   }
 
