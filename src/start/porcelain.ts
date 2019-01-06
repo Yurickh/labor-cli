@@ -4,6 +4,7 @@ import Config, { ConfigType } from '../config'
 import Project from '../project'
 
 import Task from '../labor-api/task'
+import prompt from './prompt'
 
 function fetchProjects(config: ConfigType) {
   return new Listr([
@@ -15,10 +16,18 @@ function fetchProjects(config: ConfigType) {
       },
       enabled: () => !config || !config.projects,
     },
-  ]).run()
+  ])
+    .run()
+    .then(() => {
+      const config = Config.get()
+      return config && config.projects
+    })
 }
 
-export default async function porcelain(log: typeof console.log) {
+export default async function porcelain(
+  log: typeof console.log,
+  skipQuestions: boolean,
+) {
   let config = Config.get()
 
   if (config === null || !config.auth) {
@@ -26,10 +35,18 @@ export default async function porcelain(log: typeof console.log) {
     throw new Error()
   }
 
-  await fetchProjects(config)
-  config = Config.get()
-
-  await Task.start()
-
+  if (!skipQuestions) {
+    const projects = await fetchProjects(config)
+    const project_id = await prompt.project(projects || [])
+    await Task.start({
+      start: null,
+      end: null,
+      duration: null,
+      description: '',
+      project_id,
+    })
+  } else {
+    await Task.start()
+  }
   log('✨  Your task just started')
 }

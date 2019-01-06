@@ -19,14 +19,19 @@ export default class Start extends Command {
       description:
         'Optional start date. Must be in the past and represent a RFC2822 date. Default is now.',
     }),
+    default: flags.boolean({
+      char: 'y',
+      description: 'Use default answers to all fields.',
+    }),
   }
 
   async run() {
+    const { flags } = this.parse(Start)
     try {
-      await orchestratePorcelain(this.log)
+      await orchestratePorcelain(this.log, flags.default)
     } catch (exception) {
       // Uncomment next line to have meaningful errors for debugging, but don't leave it uncommented
-      // this.error(JSON.stringify(exception))
+      // this.error(exception)
       this.exit(1)
     }
   }

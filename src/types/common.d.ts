@@ -27,4 +27,6 @@ export type Task = {
   start: string | null;
   end: string | null;
   duration: number | null;
+
+  project_id?: number | null;
 }

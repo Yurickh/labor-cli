@@ -11,10 +11,11 @@ type Error = {
 type Success = Task & { success: undefined }
 
 export async function start(
+  task?: Task,
   options: { skipRetry?: boolean } = {},
 ): Promise<Task> {
   try {
-    const result: Error | Success = await baseAPI('tasks').post()
+    const result: Error | Success = await baseAPI('tasks').post(task)
 
     if (result.success !== undefined) {
       throw new Error(result.errors[0])
@@ -24,7 +25,7 @@ export async function start(
   } catch (exception) {
     if (exception.reauth && !options.skipRetry) {
       await refreshAuthTokens()
-      return start({ skipRetry: true })
+      return start(task, { skipRetry: true })
     }
 
     throw exception
