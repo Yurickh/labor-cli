@@ -37,13 +37,13 @@ export default async function porcelain(
 
   if (!skipQuestions) {
     const projects = await fetchProjects(config)
-    const project_id = await prompt.project(projects || [])
+    const task = await prompt.task(projects || [])
     await Task.start({
       start: null,
       end: null,
       duration: null,
       description: '',
-      project_id,
+      ...task,
     })
   } else {
     await Task.start()

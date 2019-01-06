@@ -1,11 +1,11 @@
 import * as inquirer from 'inquirer'
 
-import { Project } from '../types/common'
+import { Project, Task } from '../types/common'
 
-export async function project(projects: Project[]): Promise<number | null> {
-  const chosen: { project: number | null } = await inquirer.prompt([
+export function task(projects: Project[]): Promise<Task> {
+  return inquirer.prompt([
     {
-      name: 'project',
+      name: 'project_id',
       message: 'Which project are you running?',
       type: 'list',
       choices: [
@@ -19,11 +19,14 @@ export async function project(projects: Project[]): Promise<number | null> {
         },
       ],
     },
+    {
+      name: 'description',
+      message: 'What are you working on?',
+      type: 'string',
+    },
   ])
-
-  return chosen.project
 }
 
 export default {
-  project,
+  task,
 }
