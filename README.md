@@ -33,6 +33,7 @@ USAGE
 <!-- commands -->
 * [`labor help [COMMAND]`](#labor-help-command)
 * [`labor login`](#labor-login)
+* [`labor logout`](#labor-logout)
 * [`labor start`](#labor-start)
 
 ## `labor help [COMMAND]`
@@ -68,6 +69,20 @@ OPTIONS
 
 _See code: [src/commands/login.ts](https://github.com/Yurickh/labor-cli/blob/v0.0.0/src/commands/login.ts)_
 
+## `labor logout`
+
+Forgets your credentials
+
+```
+USAGE
+  $ labor logout
+
+OPTIONS
+  -h, --help  show CLI help
+```
+
+_See code: [src/commands/logout.ts](https://github.com/Yurickh/labor-cli/blob/v0.0.0/src/commands/logout.ts)_
+
 ## `labor start`
 
 Start a new task
@@ -77,8 +92,13 @@ USAGE
   $ labor start
 
 OPTIONS
-  -h, --help   show CLI help
-  --name=name
+  -h, --help         show CLI help
+  --name=name        Optional name of the task. If not provided, this command will start a blank task.
+
+  --project=project  Optional project of the task. Must match one of the projects configured for your institution. If
+                     not provided, this command will start a task without project.
+
+  --time=time        Optional start date. Must be in the past and represent a RFC2822 date. Default is now.
 ```
 
 _See code: [src/commands/start.ts](https://github.com/Yurickh/labor-cli/blob/v0.0.0/src/commands/start.ts)_

@@ -1,11 +1,11 @@
 import * as Listr from 'listr'
 import * as keytar from 'keytar'
 
-import authenticate from '../login/authenticate'
 import Keychain from './keychain'
 import * as Prompt from './prompt'
 
 import Config from '../config'
+import authenticate from '../labor-api/authenticate'
 
 import { LoginCredentials } from '../types/login'
 
@@ -35,9 +35,9 @@ export default async function orchestratePorcelain(log: typeof console.log) {
       title: 'Authenticating',
       task: async ctx => {
         try {
-          const config = await authenticate(data)
-          ctx.config = config
-          return config
+          const user = await authenticate(data)
+          ctx.user = user
+          return user
         } catch (exception) {
           ctx.error = exception
           return Promise.reject(exception)
@@ -46,7 +46,7 @@ export default async function orchestratePorcelain(log: typeof console.log) {
     },
     {
       title: 'Saving account details',
-      task: async ctx => Config.set(ctx.config),
+      task: async ({ user }) => Config.set({ user }),
     },
     {
       title: `Saving account on ${Keychain.name()}`,

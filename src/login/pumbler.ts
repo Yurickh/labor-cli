@@ -1,8 +1,8 @@
 import Config from '../config'
 
 import { save as saveToKeychain } from './keychain'
-import authenticate from './authenticate'
 
+import authenticate from '../labor-api/authenticate'
 import { LoginCredentials } from '../types/login'
 
 export default async function orchestratePumbler(
@@ -11,10 +11,10 @@ export default async function orchestratePumbler(
 ) {
   try {
     log('Authenticating...')
-    const config = await authenticate(data)
+    const user = await authenticate(data)
 
     log('Saving account details...')
-    Config.set(config)
+    Config.set({ user })
     await saveToKeychain(data)
 
     log(`Successfully logged in as ${data.account}!`)

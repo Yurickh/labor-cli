@@ -42,8 +42,20 @@ export function set(config: Partial<ConfigType> | null): ConfigType | null {
   return merged
 }
 
-export function remove() {
-  fs.unlinkSync(`${rootPath}/config.json`)
+export function remove(): boolean {
+  try {
+    fs.unlinkSync(`${rootPath}/config.json`)
+    return true
+  } catch (exception) {
+    const [type] = exception.message.split(': ')
+
+    // swallow enoent exceptions
+    if (type !== 'ENOENT') {
+      throw exception
+    }
+
+    return false
+  }
 }
 
 export default {
