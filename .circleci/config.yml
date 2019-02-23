@@ -12,6 +12,12 @@ jobs:
             - v1-npm-{{checksum ".circleci/config.yml"}}-{{checksum "yarn.lock"}}
             - v1-npm-{{checksum ".circleci/config.yml"}}
       - run:
+          name: Updating native dependencies
+          command: apt-get update
+      - run:
+          name: Install native dependencies
+          command: apt-get install libsecret-1-dev -y
+      - run:
           name: Install dependencies
           command: yarn
       - run: ./bin/run --version
@@ -28,6 +34,12 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Updating native dependencies
+          command: apt-get update
+      - run:
+          name: Install native dependencies
+          command: apt-get install libsecret-1-dev -y
+      - run:
           name: Install dependencies
           command: yarn
       - save_cache:
@@ -39,7 +51,7 @@ jobs:
 
 workflows:
   version: 2
-  "labor-cli":
+  'labor-cli':
     jobs:
       - node-latest
       - node-8
