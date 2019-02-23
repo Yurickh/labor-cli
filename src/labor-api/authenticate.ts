@@ -3,23 +3,13 @@ import { User } from '../types/common'
 
 import { LoginCredentials } from '../types/login'
 
-type Error = {
-  success: false;
-  errors: string[];
-}
-
-type Success = {
-  success: undefined;
-  data: User;
-}
-
 export default function authenticate(data: LoginCredentials): Promise<User> {
-  return baseAPI('auth/sign_in')
+  return baseAPI<{ data: User }>('auth/sign_in')
     .post({
       email: data.account,
       password: data.password,
     })
-    .then((result: Error | Success) => {
+    .then(result => {
       if (result.success !== undefined) {
         throw new Error(result.errors[0])
       }

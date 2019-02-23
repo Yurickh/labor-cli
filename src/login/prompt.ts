@@ -4,7 +4,7 @@ import { validate } from 'isemail'
 import { LoginCredentials } from '../types/login'
 
 export function user(
-  credentials: Array<LoginCredentials>,
+  credentials: LoginCredentials[],
 ): Promise<{ chosen: LoginCredentials | null }> {
   return inquirer.prompt([
     {

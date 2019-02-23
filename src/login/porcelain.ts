@@ -10,8 +10,8 @@ import authenticate from '../labor-api/authenticate'
 import { LoginCredentials } from '../types/login'
 
 async function chooseAccount(): Promise<{
-  chosen: LoginCredentials;
-  isNew?: boolean;
+  chosen: LoginCredentials
+  isNew?: boolean
 }> {
   const credentials = await keytar.findCredentials('br.com.getlabor')
 
@@ -28,7 +28,9 @@ async function chooseAccount(): Promise<{
   return { chosen }
 }
 
-export default async function orchestratePorcelain(log: typeof console.log) {
+export default async function orchestratePorcelain(
+  log: typeof console.log,
+): Promise<void> {
   const { chosen: data, isNew } = await chooseAccount()
   await new Listr([
     {

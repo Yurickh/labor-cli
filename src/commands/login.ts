@@ -22,7 +22,7 @@ export default class Login extends Command {
     }),
   }
 
-  async run() {
+  async run(): Promise<void> {
     try {
       const { flags } = this.parse(Login)
       const { account, password } = flags
@@ -33,8 +33,6 @@ export default class Login extends Command {
         await orchestratePorcelain(this.log)
       }
     } catch (exception) {
-      // Uncomment next line to have meaningful errors for debugging, but don't leave it uncommented
-      // this.error(exception)
       this.exit(1)
     }
   }

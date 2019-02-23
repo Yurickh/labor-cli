@@ -6,7 +6,11 @@ import Project from '../project'
 import Task from '../labor-api/task'
 import prompt from './prompt'
 
-function fetchProjects(config: ConfigType) {
+import { Project as ProjectType } from '../types/common'
+
+function fetchProjects(
+  config: ConfigType,
+): Promise<ProjectType[] | null | undefined> {
   return new Listr([
     {
       title: 'Fetching projects...',
@@ -27,7 +31,7 @@ function fetchProjects(config: ConfigType) {
 export default async function porcelain(
   log: typeof console.log,
   skipQuestions: boolean,
-) {
+): Promise<void> {
   let config = Config.get()
 
   if (config === null || !config.auth) {

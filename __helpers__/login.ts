@@ -1,7 +1,7 @@
-import Config from '../../src/config'
+import Config, { ConfigType } from '../src/config'
 
-export default function login() {
-  Config.set({
+export default async function login(): Promise<ConfigType | null> {
+  return Config.set({
     auth: {
       uid: 'fake@email.com',
       client: 'fake',

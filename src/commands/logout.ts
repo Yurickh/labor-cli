@@ -8,7 +8,7 @@ export default class Logout extends Command {
     help: flags.help({ char: 'h' }),
   }
 
-  async run() {
+  async run(): Promise<void> {
     try {
       const removed = Config.remove()
       if (removed) {

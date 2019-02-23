@@ -25,7 +25,7 @@ export default class Start extends Command {
     }),
   }
 
-  async run() {
+  async run(): Promise<void> {
     const { flags } = this.parse(Start)
     try {
       await orchestratePorcelain(this.log, flags.default)

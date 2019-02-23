@@ -2,7 +2,9 @@ import * as os from 'os'
 import * as keytar from 'keytar'
 import { LoginCredentials } from '../types/login'
 
-export function name() {
+type KeyChain = 'keychain' | 'credential vault' | 'secret service'
+
+export function name(): KeyChain {
   switch (os.platform()) {
     case 'darwin':
       return 'keychain'
@@ -13,7 +15,7 @@ export function name() {
   }
 }
 
-export function save(data: LoginCredentials) {
+export function save(data: LoginCredentials): Promise<void> {
   return keytar.setPassword('br.com.getlabor', data.account, data.password)
 }
 

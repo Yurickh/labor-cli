@@ -8,7 +8,7 @@ import { LoginCredentials } from '../types/login'
 export default async function orchestratePumbler(
   log: typeof console.log,
   data: LoginCredentials,
-) {
+): Promise<void> {
   try {
     log('Authenticating...')
     const user = await authenticate(data)
@@ -24,3 +24,4 @@ export default async function orchestratePumbler(
     throw exception
   }
 }
+2

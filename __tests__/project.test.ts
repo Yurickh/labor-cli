@@ -1,4 +1,3 @@
-import { expect } from 'chai'
 import * as nock from 'nock'
 
 import Project from '../src/project'
@@ -18,6 +17,6 @@ describe('Project', () => {
   })
 
   it('returns all projects from remote', async () => {
-    expect(await Project.all()).to.deep.equal(projects)
+    expect(await Project.all()).toEqual(projects)
   })
 })

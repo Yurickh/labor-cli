@@ -4,10 +4,10 @@ import { Project, User } from './types/common'
 import { AuthCredentials } from './types/login'
 import overrideWithPartial from './common/override-with-partial'
 
-export type ConfigType = {
-  user: User;
-  auth: AuthCredentials;
-  projects?: Project[];
+export interface ConfigType {
+  user: User
+  auth: AuthCredentials
+  projects?: Project[]
 }
 
 export const rootPath = '/usr/local/lib/labor-cli'

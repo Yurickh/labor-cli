@@ -5,18 +5,18 @@ export const root = 'https://api.getlabor.com.br'
 
 export type ResponseType = Response
 
-function stripLeadingSlash(uri: string) {
+function stripLeadingSlash(uri: string): string {
   if (uri.startsWith('/')) return uri.slice(1)
   return uri
 }
 
-function toDataURL(data: object) {
+function toDataURL(data: object): string {
   return Object.entries(data || {})
     .map(([key, value]) => `${key}=${JSON.stringify(value)}`)
     .join('&')
 }
 
-async function failUnauthorized(response: Response) {
+async function failUnauthorized(response: Response): Promise<Response> {
   if (!response.ok && !response.body && response.status === 401) {
     return Promise.reject({ reauth: true })
   }
@@ -24,7 +24,7 @@ async function failUnauthorized(response: Response) {
   return response
 }
 
-function updateAuthData(response: Response) {
+function updateAuthData(response: Response): Response {
   Config.set({
     auth: {
       'token-type': response.headers.get('token-type') || '',
@@ -37,11 +37,17 @@ function updateAuthData(response: Response) {
   return response
 }
 
-function parseJSON(response: Response) {
-  return response.json()
+interface Error {
+  success: false
+  errors: string[]
 }
 
-export default function baseAPI(uri: string) {
+interface APIAccess<Success> {
+  get: (data?: object) => Promise<(Success & { success: undefined }) | Error>
+  post: (data?: object) => Promise<(Success & { success: undefined }) | Error>
+}
+
+export default function baseAPI<Data>(uri: string): APIAccess<Data> {
   const config = Config.get()
   const headers = {
     'Content-Type': 'application/json;charset=UTF-8',
@@ -58,7 +64,7 @@ export default function baseAPI(uri: string) {
       })
         .then(failUnauthorized)
         .then(updateAuthData)
-        .then(parseJSON),
+        .then(response => response.json()),
     post: (data?: object) =>
       fetch(`${root}/${stripLeadingSlash(uri)}`, {
         method: 'POST',
@@ -67,6 +73,6 @@ export default function baseAPI(uri: string) {
       })
         .then(failUnauthorized)
         .then(updateAuthData)
-        .then(parseJSON),
+        .then(response => response.json()),
   }
 }
