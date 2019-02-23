@@ -9,12 +9,14 @@ CLI interface for managing your tasks on Labor
 [![License](https://img.shields.io/npm/l/labor-cli.svg)](https://github.com/Yurickh/labor-cli/blob/master/package.json)
 
 <!-- toc -->
-* [labor-cli](#labor-cli)
-<!-- tocstop -->
+
+- [labor-cli](#labor-cli)
+  <!-- tocstop -->
 
 ## Usage
 
 <!-- usage -->
+
 ```sh-session
 $ npm install -g labor-cli
 $ labor COMMAND
@@ -26,15 +28,17 @@ USAGE
   $ labor COMMAND
 ...
 ```
+
 <!-- usagestop -->
 
 ## Commands
 
 <!-- commands -->
-* [`labor help [COMMAND]`](#labor-help-command)
-* [`labor login`](#labor-login)
-* [`labor logout`](#labor-logout)
-* [`labor start`](#labor-start)
+
+- [`labor help [COMMAND]`](#labor-help-command)
+- [`labor login`](#labor-login)
+- [`labor logout`](#labor-logout)
+- [`labor start`](#labor-start)
 
 ## `labor help [COMMAND]`
 
@@ -102,4 +106,5 @@ OPTIONS
 ```
 
 _See code: [src/commands/start.ts](https://github.com/Yurickh/labor-cli/blob/v0.0.0/src/commands/start.ts)_
+
 <!-- commandsstop -->
