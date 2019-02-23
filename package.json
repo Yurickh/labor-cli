@@ -1,7 +1,7 @@
 {
   "name": "labor-cli",
   "description": "CLI interface for managing your tasks on Labor",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "author": "Yurick @Yurickh",
   "bin": {
     "labor": "./bin/run"
