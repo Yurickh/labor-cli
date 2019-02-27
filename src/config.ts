@@ -1,4 +1,6 @@
 import * as fs from 'fs'
+import * as os from 'os'
+import * as path from 'path'
 
 import { Project, User } from './types/common'
 import { AuthCredentials } from './types/login'
@@ -10,7 +12,7 @@ export interface ConfigType {
   projects?: Project[]
 }
 
-export const rootPath = '/usr/local/lib/labor-cli'
+export const rootPath = path.join(os.homedir(), '.labor')
 
 export function get(): ConfigType | null {
   try {
